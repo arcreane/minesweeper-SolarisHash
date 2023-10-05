@@ -1,18 +1,11 @@
-from gameLogic import create_grid
+from gameLogic import create_grid, display_grid, set_difficulty
 
 
-check_digit = True
-while(check_digit):
-    try:
-        width_choice = int(input("Enter field width : "))
-        height_choice = int(input("Enter field height : "))
-        check_digit = False
-    except ValueError:
-        print("Entré une valeur numérique")
+def start_game():
 
-nb_collumn = 0
-nb_row = 0
+    width, height = set_difficulty()
 
-grid = create_grid(width_choice, height_choice)
-for line in grid:
-    print(line)
+    grid = create_grid(width, height)
+
+    display_grid(grid)
+
