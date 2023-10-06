@@ -49,14 +49,14 @@ def put_indicate(grid):
     for y in range(height):
         for x in range(width):
             if grid[y][x] == ' ':
-                mines_adjacentes = 0
+                adjacent_mines = 0
                 for dx in [-1, 0, 1]:
                     for dy in [-1, 0, 1]:
                         if 0 <= x + dx < width and 0 <= y + dy < height:
                             if grid[y + dy][x + dx] == '*':
-                                mines_adjacentes += 1
-                if mines_adjacentes > 0:
-                    grid[y][x] = str(mines_adjacentes)
+                                adjacent_mines += 1
+                if adjacent_mines > 0:
+                    grid[y][x] = str(adjacent_mines)
 
 
 def display_grid(grid):
