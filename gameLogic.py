@@ -1,5 +1,6 @@
 import os
 import random
+from re import U
 
 
 def set_difficulty():
@@ -21,9 +22,10 @@ def set_difficulty():
 
 def create_grid(width, height, mines):
     grid = [[' ' for _ in range(width)] for _ in range(height)]
+    grid_for_game = [["\u2588" for _ in range(width)] for _ in range(height)]
     put_mine(grid, mines)
     put_indicate(grid)
-    return grid
+    return grid, grid_for_game
 
 
 def put_mine(grid, mines):
@@ -58,9 +60,6 @@ def put_indicate(grid):
 
 
 def display_grid(grid):
-    # for index, line in enumerate(grid):
-    # print(f"{index:>2}",' '.join(line))
-
     largeur = len(grid[0])
     hauteur = len(grid)
 
@@ -84,3 +83,32 @@ def display_grid(grid):
             print(f' {col:2} ', end='')
 
     print('\n')
+
+
+def display_grid2(grid, grid_for_game):
+    largeur = len(grid[0])
+    hauteur = len(grid)
+
+    for row in range(hauteur):
+        print(f'{row:2} ', end='')
+
+        for col in range(largeur):
+            if grid_for_game[row][col] == "\u2588":
+                print(' {:2} '.format("\u2588"), end='')
+            else:
+                print(f' {grid[row][col]:2} ', end='')
+
+        print()
+
+        # Afficher les numéros de colonne en bas
+    print('   ', end='')
+    for col in range(largeur):
+        if col < 10:
+            print(f' {col:2} ', end='')
+        else:
+            print(f' {col:2} ', end='')
+
+    print('\n')
+
+
+

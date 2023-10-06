@@ -1,11 +1,15 @@
-from gameLogic import create_grid, display_grid, set_difficulty
+from gameLogic import create_grid, display_grid, set_difficulty, display_grid2, decouvrir_case
 
 
 def start_game():
 
     width, height, mines = set_difficulty()
 
-    grid = create_grid(width, height, mines)
+    grid, grid_for_game = create_grid(width, height, mines)
 
     display_grid(grid)
+    display_grid2(grid,grid_for_game)
+
+
+
 
