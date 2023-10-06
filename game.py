@@ -1,4 +1,4 @@
-from gameLogic import create_grid, display_grid, set_difficulty, display_grid2, decouvrir_case
+from gameLogic import create_grid, display_grid, set_difficulty, display_grid2
 
 
 def start_game():
