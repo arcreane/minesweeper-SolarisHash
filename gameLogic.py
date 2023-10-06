@@ -22,7 +22,9 @@ def set_difficulty():
 def create_grid(width, height, mines):
     grid = [[' ' for _ in range(width)] for _ in range(height)]
     put_mine(grid, mines)
+    put_indicate(grid)
     return grid
+
 
 def put_mine(grid, mines):
     width = len(grid[0])
@@ -38,23 +40,47 @@ def put_mine(grid, mines):
             mine_put += 1
 
 
+def put_indicate(grid):
+    width = len(grid[0])
+    height = len(grid)
+
+    for y in range(height):
+        for x in range(width):
+            if grid[y][x] == ' ':
+                mines_adjacentes = 0
+                for dx in [-1, 0, 1]:
+                    for dy in [-1, 0, 1]:
+                        if 0 <= x + dx < width and 0 <= y + dy < height:
+                            if grid[y + dy][x + dx] == '*':
+                                mines_adjacentes += 1
+                if mines_adjacentes > 0:
+                    grid[y][x] = str(mines_adjacentes)
+
+
 def display_grid(grid):
-    #for index, line in enumerate(grid):
-        #print(f"{index:>2}",' '.join(line))
+    # for index, line in enumerate(grid):
+    # print(f"{index:>2}",' '.join(line))
 
     largeur = len(grid[0])
     hauteur = len(grid)
+
     for row in range(hauteur):
         print(f'{row:2} ', end='')
 
         for col in range(largeur):
-            print(f' {grid[row][col]} ', end='')
+            if col < 10:
+                print(f' {grid[row][col]} ', end='')
+            else:
+                print(f' {grid[row][col]:2} ', end='')
 
         print()
 
         # Afficher les numéros de colonne en bas
     print('   ', end='')
     for col in range(largeur):
-        print(f' {col:2} ', end='')
+        if col < 10:
+            print(f' {col} ', end='')
+        else:
+            print(f' {col:2} ', end='')
 
     print('\n')
