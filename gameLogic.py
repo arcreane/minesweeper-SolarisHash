@@ -110,5 +110,19 @@ def display_grid2(grid, grid_for_game):
 
     print('\n')
 
+def decouvrir_case(grid, etat_plateau, x, y):
+    width = len(grid[0])
+    height = len(grid)
 
+    if etat_plateau[y][x] == ' ':
+        return
+
+    etat_plateau[y][x] = ' '
+
+    if grid[y][x] == ' ':
+
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
+                if 0 <= x + dx < width and 0 <= y + dy < height:
+                    decouvrir_case(grid, etat_plateau, x + dx, y + dy)
 
