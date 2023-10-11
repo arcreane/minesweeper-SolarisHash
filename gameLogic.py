@@ -42,6 +42,15 @@ def put_mine(grid, mines):
             mine_put += 1
 
 
+def put_flag(grid_for_game, x, y):
+    if grid_for_game[y][x] == 'F':
+        print("Case deja decouverte")
+        return
+
+    grid_for_game[y][x] = 'F'
+
+
+
 def put_indicate(grid):
     width = len(grid[0])
     height = len(grid)
@@ -60,13 +69,13 @@ def put_indicate(grid):
 
 
 def display_grid(grid):
-    largeur = len(grid[0])
-    hauteur = len(grid)
+    width = len(grid[0])
+    height = len(grid)
 
-    for row in range(hauteur):
+    for row in range(height):
         print(f'{row:2} ', end='')
 
-        for col in range(largeur):
+        for col in range(width):
             if col < 10:
                 print(f' {grid[row][col]} ', end='')
             else:
@@ -76,7 +85,7 @@ def display_grid(grid):
 
         # Afficher les numéros de colonne en bas
     print('   ', end='')
-    for col in range(largeur):
+    for col in range(width):
         if col < 10:
             print(f' {col} ', end='')
         else:
@@ -86,15 +95,17 @@ def display_grid(grid):
 
 
 def display_grid2(grid, grid_for_game):
-    largeur = len(grid[0])
-    hauteur = len(grid)
+    width = len(grid[0])
+    height = len(grid)
 
-    for row in range(hauteur):
+    for row in range(height):
         print(f'{row:2} ', end='')
 
-        for col in range(largeur):
+        for col in range(width):
             if grid_for_game[row][col] == "\u2588":
                 print(' {:2} '.format("\u2588"), end='')
+            elif grid_for_game[row][col] == 'F':
+                print(' F  ', end='')
             else:
                 print(f' {grid[row][col]:2} ', end='')
 
@@ -102,7 +113,7 @@ def display_grid2(grid, grid_for_game):
 
         # Afficher les numéros de colonne en bas
     print('   ', end='')
-    for col in range(largeur):
+    for col in range(width):
         if col < 10:
             print(f' {col:2} ', end='')
         else:
@@ -111,18 +122,21 @@ def display_grid2(grid, grid_for_game):
     print('\n')
 
 
-def decouvrir_case(grid, etat_plateau, x, y):
+def decouvrir_case(grid, grid_for_game, x, y):
     width = len(grid[0])
     height = len(grid)
 
-    if etat_plateau[y][x] == ' ':
+    if grid_for_game[y][x] == ' ':
         return
 
-    etat_plateau[y][x] = ' '
+    if grid_for_game[y][x] == 'F':
+        return
+
+    grid_for_game[y][x] = ' '
 
     if grid[y][x] == ' ':
 
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
                 if 0 <= x + dx < width and 0 <= y + dy < height:
-                    decouvrir_case(grid, etat_plateau, x + dx, y + dy)
+                    decouvrir_case(grid, grid_for_game, x + dx, y + dy)
