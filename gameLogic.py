@@ -1,6 +1,4 @@
-import os
 import random
-from re import U
 
 
 def set_difficulty():
@@ -169,3 +167,11 @@ def count_discovered_cells(grid_for_game):
         discovered_cells += row.count(' ')
 
     return discovered_cells
+
+
+def format_time(seconds):
+    # DIVISE LES SECONDES PAR 60
+    minutes, seconds = divmod(seconds, 60)
+    # DIVISE LES MINUTES PAR 60
+    hours, minutes = divmod(minutes, 60)
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d}"

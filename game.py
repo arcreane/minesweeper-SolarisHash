@@ -1,7 +1,8 @@
+import os
 import time
 
 from gameLogic import create_grid, display_grid, set_difficulty, display_grid2, decouvrir_case, put_flag, \
-    count_discovered_cells
+    count_discovered_cells, format_time
 
 
 def start_game():
@@ -22,7 +23,8 @@ def start_game():
 
         while True:
             elapsed_time = int(time.time() - start_time)
-            print(f"Time elapsed: {elapsed_time} seconds")
+            formatted_time = format_time(elapsed_time)
+            print(f"Time elapsed: {formatted_time}")
             if cells_without_mines == 0:
                 print("""░█▀▀░█▀█░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█░█░█░░░█▀█░▀█▀░▀█▀░█▀█░█▀█░░░█░░░█░█░█▀█░█░█░░░█░█░▀█▀░█▀█░░░█
 ░█░░░█░█░█░█░█░█░█▀▄░█▀█░░█░░█░█░█░░░█▀█░░█░░░█░░█░█░█░█░░░▀░░░░█░░█░█░█░█░░░█▄█░░█░░█░█░░░▀
@@ -50,6 +52,7 @@ def start_game():
 ██╔══██╗██║   ██║██║   ██║██║╚██╔╝██║╚═╝      ╚██╔╝  ██║   ██║██║   ██║╚██╗ ██╔╝██╔══╝      ██╔══██║██║   ██║       ██╔══██║    ██║╚██╔╝██║██║██║╚██╗██║██╔══╝         ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝      ██║   ██║╚██╗ ██╔╝██╔══╝  ██╔══██╗    ╚═╝╚═╝
 ██████╔╝╚██████╔╝╚██████╔╝██║ ╚═╝ ██║██╗       ██║   ╚██████╔╝╚██████╔╝ ╚████╔╝ ███████╗    ██║  ██║██║   ██║       ██║  ██║    ██║ ╚═╝ ██║██║██║ ╚████║███████╗██╗    ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗    ╚██████╔╝ ╚████╔╝ ███████╗██║  ██║    ██╗██╗
 ╚═════╝  ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═╝       ╚═╝    ╚═════╝  ╚═════╝   ╚═══╝  ╚══════╝    ╚═╝  ╚═╝╚═╝   ╚═╝       ╚═╝  ╚═╝    ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚══════╝╚═╝     ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     ╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═╝    ╚═╝╚═╝""")
+                            print(f"Time elapsed: {formatted_time}")
                             break
                         else:
                             decouvrir_case(grid, grid_for_game, x, y)
