@@ -8,7 +8,7 @@ def set_difficulty():
     while check_digit:
         try:
             print("Choose your difficulty")
-            difficulty = int(input("1.Easy\t2.Medium\t3.Hard\n"))
+            difficulty = int(input("1.Easy\t2.Medium\t3.Hard\t4.Personnalisé\n"))
             match difficulty:
                 case 1:
                     return 9, 9, 10
@@ -16,6 +16,12 @@ def set_difficulty():
                     return 16, 16, 40
                 case 3:
                     return 30, 16, 99
+                case 4:
+                    x = int(input("Enter field height: "))
+                    y = int(input("Enter field width: "))
+                    mines = int(input("Enter mines number: "))
+                    return y, x, mines
+
         except ValueError:
             print("Choose a right choice")
 
@@ -43,12 +49,11 @@ def put_mine(grid, mines):
 
 
 def put_flag(grid_for_game, x, y):
-    if grid_for_game[y][x] == 'F':
+    if grid_for_game[y][x] == '\u25B2':
         print("Case deja decouverte")
         return
 
-    grid_for_game[y][x] = 'F'
-
+    grid_for_game[y][x] = '\u25B2'
 
 
 def put_indicate(grid):
@@ -104,8 +109,8 @@ def display_grid2(grid, grid_for_game):
         for col in range(width):
             if grid_for_game[row][col] == "\u2588":
                 print(' {:2} '.format("\u2588"), end='')
-            elif grid_for_game[row][col] == 'F':
-                print(' F  ', end='')
+            elif grid_for_game[row][col] == '\u25B2':
+                print(' {:2} '.format("\u25B2"), end='')
             else:
                 print(f' {grid[row][col]:2} ', end='')
 
@@ -122,7 +127,7 @@ def display_grid2(grid, grid_for_game):
     print('\n')
 
 
-def decouvrir_case(grid, grid_for_game, x, y):
+def decouvrir_case(grid, grid_for_game, x, y, cells_without_mines):
     width = len(grid[0])
     height = len(grid)
 
@@ -135,8 +140,9 @@ def decouvrir_case(grid, grid_for_game, x, y):
     grid_for_game[y][x] = ' '
 
     if grid[y][x] == ' ':
+        cells_without_mines -= 1
 
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
                 if 0 <= x + dx < width and 0 <= y + dy < height:
-                    decouvrir_case(grid, grid_for_game, x + dx, y + dy)
+                    decouvrir_case(grid, grid_for_game, x + dx, y + dy, cells_without_mines)
