@@ -50,7 +50,7 @@ def put_mine(grid, mines):
 
 def put_flag(grid_for_game, x, y):
     if grid_for_game[y][x] == '\u25B2':
-        print("Case deja decouverte")
+        print("Case already discovered")
         return
 
     grid_for_game[y][x] = '\u25B2'
@@ -146,3 +146,11 @@ def decouvrir_case(grid, grid_for_game, x, y, cells_without_mines):
             for dy in [-1, 0, 1]:
                 if 0 <= x + dx < width and 0 <= y + dy < height:
                     decouvrir_case(grid, grid_for_game, x + dx, y + dy, cells_without_mines)
+
+def count_discovered_cells(grid_for_game):
+    discovered_cells = 0
+
+    for row in grid_for_game:
+        discovered_cells += row.count(' ')
+
+    return discovered_cells

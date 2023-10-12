@@ -1,4 +1,5 @@
-from gameLogic import create_grid, display_grid, set_difficulty, display_grid2, decouvrir_case, put_flag
+from gameLogic import create_grid, display_grid, set_difficulty, display_grid2, decouvrir_case, put_flag, \
+    count_discovered_cells
 
 
 def start_game():
@@ -8,6 +9,7 @@ def start_game():
         width, height, mines = set_difficulty()
 
         cells_without_mines = width * height - mines
+        print(cells_without_mines)
 
         grid, grid_for_game = create_grid(width, height, mines)
 
@@ -18,37 +20,44 @@ def start_game():
 
         while True:
             if cells_without_mines == 0:
-                print("Félicitations ! Vous avez gagné !")
+                print("""
+                ░█▀▀░█▀█░█▀█░█▀▀░█▀▄░█▀█░▀█▀░█░█░█░░░█▀█░▀█▀░▀█▀░█▀█░█▀█░░░█░░░█░█░█▀█░█░█░░░█░█░▀█▀░█▀█░░░█
+░█░░░█░█░█░█░█░█░█▀▄░█▀█░░█░░█░█░█░░░█▀█░░█░░░█░░█░█░█░█░░░▀░░░░█░░█░█░█░█░░░█▄█░░█░░█░█░░░▀
+░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀░░░▀░░░░▀░░▀▀▀░▀▀▀░░░▀░▀░▀▀▀░▀░▀░░░▀
+                """)
                 break
             try:
-                action = input("Retourner une case (u) ou placer un flag (f) :").lower()
+                action = input("Flip a square (u) or place a flag (f) :").lower()
 
                 if action == 'u':
                     try:
-                        x = int(input("Entrez la colonne : "))
-                        y = int(input("Entrez la rangée : "))
+                        x = int(input("Enter column : "))
+                        y = int(input("Enter row : "))
                     except ValueError:
-                        print("Veuillez entrer des nombres valides.")
+                        print("Enter a valid number.")
                         continue
 
                     if 0 <= x < width and 0 <= y < height:
                         if (x, y) in flagged_cells:
-                            print("Vous avez flagger cellule, vous ne pouvez donc plus la selectionner")
+                            print("You have flagged this cell, so you can no longer select it.")
                         elif grid[y][x] == '*':
-                            print("Boom ! Vous avez touché une mine. Fin du jeu.")
+                            print("Boom! You've hit a mine. Game over !!")
                             break
                         else:
                             decouvrir_case(grid, grid_for_game, x, y, cells_without_mines)
                             display_grid(grid)
                             display_grid2(grid, grid_for_game)
+                            discovered_cells = count_discovered_cells(grid_for_game)
+                            cells_without_mines -= discovered_cells
+                            print(cells_without_mines)
                     else:
-                        print("Coordonnées non valides.")
+                        print("Invalid coordinates.")
                 elif action == 'f':
                     try:
-                        x = int(input("Entrez la colonne : "))
-                        y = int(input("Entrez la rangée : "))
+                        x = int(input("Enter column : "))
+                        y = int(input("Enter row : "))
                     except ValueError:
-                        print("Veuillez entrer des nombres valides.")
+                        print("Please enter valid numbers.")
                         continue
 
                     if 0 <= x < width and 0 <= y < height:
@@ -57,11 +66,12 @@ def start_game():
                         display_grid(grid)
                         display_grid2(grid, grid_for_game)
                     else:
-                        print("Coordonnées non valide")
+                        print("Invalid coordinates")
             except ValueError:
-                print("Entrer une action valide")
+                print("Enter a valid action")
 
         print("Do you want to play a new game")
         choice = int(input("1.Yes\t2.No"))
+
         if choice == 2:
             new_game = False
